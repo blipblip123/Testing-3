@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oi Woi</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --panel: #161b22;
+    --red: #c51111;
+    --cyan: #38fedc;
+    --yellow: #f5f557;
+    --text: #eaeaea;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(56,254,220,0.06), transparent 40%),
+      radial-gradient(circle at 80% 90%, rgba(197,17,17,0.08), transparent 40%);
+    color: var(--text);
+    font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+    text-align: center;
+    padding-bottom: 3rem;
+  }
+  header {
+    padding: 3rem 1rem 1rem;
+  }
+  header .eyebrow {
+    letter-spacing: 0.3em;
+    font-size: 0.75rem;
+    color: var(--cyan);
+    text-transform: uppercase;
+  }
+  header h1 {
+    font-size: 2.8rem;
+    margin: 0.3rem 0;
+    color: var(--yellow);
+    text-shadow: 3px 3px 0 var(--red);
+  }
+  header p {
+    color: #999;
+    max-width: 30ch;
+    margin: 0.5rem auto 0;
+    font-size: 0.9rem;
+  }
+
+  /* Crewmate bean */
+  .bean-wrap {
+    margin: 2rem auto;
+    width: 140px;
+  }
+  .bean {
+    width: 120px;
+    height: 150px;
+    background: var(--red);
+    border-radius: 60px 60px 40px 40px / 70px 70px 40px 40px;
+    position: relative;
+    margin: 0 auto;
+    transition: background 0.3s;
+  }
+  .visor {
+    position: absolute;
+    top: 30px;
+    left: 55px;
+    width: 65px;
+    height: 40px;
+    background: #b3f0f5;
+    border: 4px solid #82c6cc;
+    border-radius: 20px;
+  }
+  .backpack {
+    position: absolute;
+    top: 40px;
+    left: -18px;
+    width: 22px;
+    height: 55px;
+    background: inherit;
+    filter: brightness(0.85);
+    border-radius: 10px;
+  }
+  .leg {
+    position: absolute;
+    bottom: -14px;
+    width: 26px;
+    height: 30px;
+    background: inherit;
+    filter: brightness(0.85);
+    border-radius: 8px;
+  }
+  .leg.l { left: 20px; }
+  .leg.r { right: 20px; }
+
+  .colors {
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+    margin: 1.2rem 0 2rem;
+  }
+  .swatch {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid #333;
+  }
+
+  section {
+    max-width: 480px;
+    margin: 0 auto 2rem;
+    padding: 0 1.2rem;
+  }
+  .task {
+    background: var(--panel);
+    border: 1px solid #2a2f38;
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    text-align: left;
+    cursor: pointer;
+    user-select: none;
+  }
+  .task .box {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--cyan);
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .task.done .box {
+    background: var(--cyan);
+  }
+  .task.done span {
+    text-decoration: line-through;
+    color: #777;
+  }
+
+  #meetingBtn {
+    background: var(--red);
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 40px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+    margin-top: 1rem;
+    cursor: pointer;
+  }
+  #meetingBtn:active { transform: scale(0.96); }
+
+  #result {
+    margin-top: 1.2rem;
+    font-size: 1.1rem;
+    min-height: 1.5rem;
+    color: var(--yellow);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">emergency broadcast</div>
+  <h1>OI WOI 👀</h1>
+  <p>you made it this far. tap the bean, finish your tasks, then call a meeting.</p>
+</header>
+
+<div class="bean-wrap">
+  <div class="bean" id="bean" onclick="cycleColor()">
+    <div class="backpack"></div>
+    <div class="visor"></div>
+    <div class="leg l"></div>
+    <div class="leg r"></div>
+  </div>
+</div>
+
+<div class="colors">
+  <div class="swatch" style="background:#c51111" onclick="setColor('#c51111')"></div>
+  <div class="swatch" style="background:#132ed1" onclick="setColor('#132ed1')"></div>
+  <div class="swatch" style="background:#117f2d" onclick="setColor('#117f2d')"></div>
+  <div class="swatch" style="background:#ed54ba" onclick="setColor('#ed54ba')"></div>
+  <div class="swatch" style="background:#ef7d0d" onclick="setColor('#ef7d0d')"></div>
+  <div class="swatch" style="background:#f5f557" onclick="setColor('#f5f557')"></div>
+</div>
+
+<section>
+  <div class="task" onclick="toggleTask(this)">
+    <div class="box"></div>
+    <span>fix wiring</span>
+  </div>
+  <div class="task" onclick="toggleTask(this)">
+    <div class="box"></div>
+    <span>empty trash</span>
+  </div>
+  <div class="task" onclick="toggleTask(this)">
+    <div class="box"></div>
+    <span>upload data</span>
+  </div>
+
+  <button id="meetingBtn" onclick="callMeeting()">🔴 EMERGENCY MEETING</button>
+  <div id="result"></div>
+</section>
+
+<script>
+  const colors = ['#c51111', '#132ed1', '#117f2d', '#ed54ba', '#ef7d0d', '#f5f557'];
+  let colorIndex = 0;
+  const bean = document.getElementById('bean');
+
+  function setColor(hex) {
+    bean.style.background = hex;
+  }
+  function cycleColor() {
+    colorIndex = (colorIndex + 1) % colors.length;
+    setColor(colors[colorIndex]);
+  }
+
+  function toggleTask(el) {
+    el.classList.toggle('done');
+  }
+
+  const names = ['red', 'blue', 'green', 'pink', 'orange', 'yellow', 'your bro'];
+  function callMeeting() {
+    const done = document.querySelectorAll('.task.done').length;
+    const total = document.querySelectorAll('.task').length;
+    const suspect = names[Math.floor(Math.random() * names.length)];
+    const isImpostor = Math.random() < 0.5;
+    const result = document.getElementById('result');
+    result.textContent = suspect + ' was ' + (isImpostor ? 'the impostor 🔪' : 'not the impostor 😇')
+      + ' — tasks done: ' + done + '/' + total;
+  }
+</script>
+
+</body>
+</html>
